@@ -1,23 +1,28 @@
-document.getElementById("drop_zone").addEventListener("drop", dropHandler);
+document.getElementById("drop_zone").addEventListener("drop",  dropHandler);
 
 document.getElementById("drop_zone").addEventListener("dragover", dragOverHandler)
 
 function dropHandler(ev){
-    console.log("Files Dropped");
-
-    ev.preventDefault();
-
     if (ev.dataTransfer.items){
-        [...ev.dataTransfer.items].forEach((item, i) => {
-            if(item.kind === "file"){
-                const file = item.getAsFile()
-                console.log(`... file[${i}].name = ${file.name}`);
-            }
-        });
-    } else {
-        [...ev.dataTransfer.files].forEach((file, i) => {
-            console.log(`... file[${i}].name = ${file.name}`);
-        });
+        ev.preventDefault();
+
+        console.log("Files Dropped");
+
+        const dt = ev.dataTransfer;
+        let files = [];
+
+        if (dt.items){
+            files = [...dt.items]
+            .filter(item => item.kind === "file")
+            .map(item => item.getAsFile());
+        }
+        else if (dt.files){
+            files = [...dt.files];
+        }
+        files.forEach((file, i) => {
+        console.log(`file[${i}].name = ${file.name}`);
+    });
+    console.log("Number of files", files.length)
     }
 }
 
