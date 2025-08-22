@@ -33,9 +33,8 @@ async function handleFiles(files){
      for (const file of files) {
         if (!file.type.startsWith("image/")) continue;
 
-        const newBlob = await convertImage(file, { type: outputType, quality, width, height });
+        const newFile = await convertImage(file, { type: outputType, quality, width, height });
         console.log("image converted")
-        const newFile = new File([newBlob], changeExt(file.name, extFromType(outputType)), { type: newBlob.type });
         convertedList.push(newFile);
      }
      
@@ -53,7 +52,11 @@ async function convertImage(inputFile, { type = "image/jpeg", quality=0.8, width
     const ctx = offs.getContext("2d");
     ctx.drawImage(bitmap, 0, 0, width || bitmap.width, height || bitmap.height);
 
-    return await offs.convertToBlob({ type, quality });
+    const blob =  offs.convertToBlob({ type, quality });
+
+    const newFile = new File([blob], changeExt(inputFile.name, extFromType(type)), {type: blob.type});
+
+    return newFile;
 }
 
 function dragOverHandler(ev){
