@@ -41,7 +41,7 @@ async function handleFiles(files){
      
      console.log("files handled")
 
-     uploadFiles(convertedList);
+     downloadFiles(convertedList);
 
      console.log("files uploaded")
 }
@@ -60,4 +60,31 @@ function dragOverHandler(ev){
     console.log("File in drop zone");
 
     ev.preventDefault();
+}
+
+function downloadFiles(convertedList){
+    convertedList.forEach(file => {
+        const link = document.createElement("a");
+        link.href = URL.createObjectURL(file);
+        link.download = file.name;
+
+        link.click();
+    });
+}
+
+function changeExt(filename, newExt){
+    return filename.replace(/\.[^/.]+$/,"")
+}
+
+function extFromType(mimeType) {
+    switch (mimeType) {
+        case "image/jpeg":
+            return ".jpg";
+        case "image/png":
+            return ".png";
+        case "image/gif":
+            return ".gif";
+        default:
+            return ".jpg";
+    }
 }
