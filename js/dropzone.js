@@ -2,7 +2,6 @@ document.getElementById("drop_zone").addEventListener("drop",  dropHandler);
 
 document.getElementById("drop_zone").addEventListener("dragover", dragOverHandler)
 
-let outputType = 'image/jpg'
 let quality    = 0.8;            
 let width      = undefined;     
 let height     = undefined;
@@ -28,8 +27,14 @@ function dropHandler(ev){
     }
 }
 
+function getSelectedOutputType() {
+    const selectElement = document.getElementById("outputType");
+    return selectElement ? selectElement.value : 'image/jpeg';
+}
+
 async function handleFiles(files){
      const convertedList = [];
+     const outputType = getSelectedOutputType();
      for (const file of files) {
         if (!file.type.startsWith("image/")) continue;
 
@@ -76,7 +81,7 @@ function downloadFiles(convertedList){
 }
 
 function changeExt(filename, newExt){
-    return filename.replace(/\.[^/.]+$/,"")
+    return filename.replace(/\.[^/.]+$/,"") + newExt;
 }
 
 function extFromType(mimeType) {

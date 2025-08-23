@@ -1,7 +1,7 @@
 {
     "manifest_version": 3,
     "name": "NOBS Image Converter",
-    "version": "1.0.1",
+    "version": "1.1.0",
     "description": "Convert images to any pre-selected format, by drag and drop.",
     "permissions": ["storage", "contextMenus", "scripting"],
     "icons": {
