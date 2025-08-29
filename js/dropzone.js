@@ -57,7 +57,7 @@ async function convertImage(inputFile, { type = "image/jpeg", quality=0.8, width
     const ctx = offs.getContext("2d");
     ctx.drawImage(bitmap, 0, 0, width || bitmap.width, height || bitmap.height);
 
-    const blob =  offs.convertToBlob({ type, quality });
+    const blob =  await offs.convertToBlob({ type, quality });
 
     const newFile = new File([blob], changeExt(inputFile.name, extFromType(type)), {type: blob.type});
 
@@ -87,6 +87,8 @@ function changeExt(filename, newExt){
 function extFromType(mimeType) {
     switch (mimeType) {
         case "image/jpeg":
+            return ".jpg";
+        case "image/jpg":
             return ".jpg";
         case "image/png":
             return ".png";
